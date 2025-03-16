@@ -1384,7 +1384,7 @@
             const checkLoadingComplete = () => {
                 if (videoPlayed && startTime) {
                     const elapsedTime = (Date.now() - startTime) / 1000; // Convert to seconds
-                    if (elapsedTime >= 5 && progress >= 100) { // Wait for 7 seconds and 100% progress
+                    if (elapsedTime >= 5 && progress >= 100) { // Wait for 5 seconds and 100% progress
                         clearInterval(interval);
                         setTimeout(() => {
                             loadingPage.style.opacity = '0';
@@ -1398,6 +1398,16 @@
 
             // Check loading status every 100ms
             setInterval(checkLoadingComplete, 100);
+
+            // Fallback to ensure loading page is hidden after 10 seconds
+            setTimeout(() => {
+                if (loadingPage.style.display !== 'none') {
+                    loadingPage.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingPage.style.display = 'none';
+                    }, 500);
+                }
+            }, 10000);
 
             // Scroll progress bar
             window.addEventListener('scroll', () => {
