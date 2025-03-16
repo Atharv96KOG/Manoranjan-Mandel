@@ -529,17 +529,73 @@
 
         /* Modern Event Cards */
         .events {
-            padding: 4rem 2rem;
+            padding: 6rem 2rem;
             background: rgba(34, 34, 34, 0.95);
             -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .events::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 20%, rgba(74, 144, 226, 0.1), transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(80, 200, 120, 0.1), transparent 50%);
+            pointer-events: none;
+        }
+
+        .events h2 {
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 3rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: block;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .events h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--gradient-1);
+            border-radius: 3px;
+        }
+
+        .events .container {
+            width: 100%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .event-cards-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: var(--grid-gap);
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
             padding: 2rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            justify-items: center;
         }
 
         .event-card {
@@ -549,11 +605,34 @@
             border-radius: 20px;
             padding: 2rem;
             width: 100%;
+            max-width: 350px;
             height: auto;
-            min-height: 300px;
-            margin: 0;
+            min-height: 350px;
+            margin: 0 auto;
             transition: var(--transition);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .event-card:hover::before {
+            transform: translateX(100%);
         }
 
         .event-card:hover {
@@ -562,20 +641,133 @@
             border-color: var(--primary-color);
         }
 
+        .event-card i {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            transition: var(--transition);
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .event-card:hover i {
+            transform: scale(1.1) rotate(360deg);
+        }
+
         .event-card h3 {
-            font-size: 1.5rem;
+            font-size: clamp(1.5rem, 3vw, 2rem);
             margin-bottom: 1rem;
             color: var(--primary-color);
+            position: relative;
+            padding-bottom: 0.5rem;
+            text-align: center;
         }
 
-        .event-card .rocket {
-            width: 40px;
-            height: 40px;
+        .event-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: var(--gradient-1);
+            border-radius: 2px;
+        }
+
+        .event-card p {
+            margin: 1rem 0;
+            line-height: 1.6;
+            color: var(--text-light);
+            opacity: 0.9;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .event-card .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--gradient-1);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
             transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .event-card:hover .rocket {
-            transform: translateY(-10px) rotate(45deg);
+        .event-card .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .event-card .btn:hover::before {
+            left: 100%;
+        }
+
+        .event-card .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .events {
+                padding: 4rem 1rem;
+            }
+
+            .event-cards-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 1rem 0;
+                max-width: 100%;
+            }
+
+            .event-card {
+                max-width: 100%;
+                min-height: 300px;
+                padding: 1.5rem;
+            }
+
+            .events h2 {
+                font-size: clamp(1.8rem, 4vw, 2.5rem);
+                margin-bottom: 2rem;
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .events {
+                padding: 3rem 1rem;
+            }
+
+            .event-cards-container {
+                gap: 1rem;
+            }
+
+            .event-card {
+                min-height: 280px;
+                padding: 1.25rem;
+            }
+
+            .events h2 {
+                font-size: clamp(1.5rem, 3vw, 2rem);
+                margin-bottom: 1.5rem;
+                padding: 0 0.5rem;
+            }
         }
 
         /* Modern FAQ Section */
@@ -602,14 +794,18 @@
 
         .faq h2 {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 5vw, 3.5rem);
             margin-bottom: 3rem;
             background: var(--gradient-1);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             position: relative;
-            display: inline-block;
+            display: block;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+            padding: 0 1rem;
         }
 
         .faq h2::after {
@@ -622,6 +818,16 @@
             height: 3px;
             background: var(--gradient-1);
             border-radius: 3px;
+        }
+
+        .faq .container {
+            width: 100%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .faq-container {
@@ -776,6 +982,9 @@
             max-width: var(--container-width);
             margin: 0 auto;
             padding: 0 var(--container-padding);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* Enhanced Responsive Design */
@@ -1174,7 +1383,7 @@
         <div class="container">
             <a href="#" class="logo">
                 <img src="mm.jpg" alt="" width="60px" height="80px">
-                <span>Manoranjan Mandal</span>
+                <img src="088.png" alt="" width="220px" height="80px">
             </a>
             <div class="menu-icon">
                 <i class="fas fa-bars"></i>
@@ -1229,21 +1438,27 @@
                 <h2 class="animate-fade-in">Upcoming Events</h2>
                 <div class="event-cards-container">
                     <div class="event-card glass-card animate-fade-in">
-                        <i class="fas fa-rocket rocket"></i>
-                        <h3>Tech Summit 2024</h3>
-                        <p>Join us for the biggest tech event of the year.</p>
+                        <div>
+                            <i class="fas fa-rocket rocket"></i>
+                            <h3>Tech Summit 2024</h3>
+                            <p>Join us for the biggest tech event of the year. Network with industry leaders, attend workshops, and discover the latest innovations in technology.</p>
+                        </div>
                         <a href="#" class="btn">Learn More</a>
                     </div>
                     <div class="event-card glass-card animate-fade-in">
-                        <i class="fas fa-globe"></i>
-                        <h3>International Conference</h3>
-                        <p>A platform for global tech enthusiasts.</p>
+                        <div>
+                            <i class="fas fa-globe"></i>
+                            <h3>International Conference</h3>
+                            <p>A platform for global tech enthusiasts. Share ideas, collaborate on projects, and build lasting connections with professionals worldwide.</p>
+                        </div>
                         <a href="#" class="btn">Register Now</a>
                     </div>
                     <div class="event-card glass-card animate-fade-in">
-                        <i class="fas fa-hands-helping"></i>
-                        <h3>Community Meetup</h3>
-                        <p>Connect with like-minded individuals.</p>
+                        <div>
+                            <i class="fas fa-hands-helping"></i>
+                            <h3>Community Meetup</h3>
+                            <p>Connect with like-minded individuals in our monthly community meetup. Share experiences, learn from others, and grow together.</p>
+                        </div>
                         <a href="#" class="btn">Join Us</a>
                     </div>
                 </div>
