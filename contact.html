@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Manoranjan Mandal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #50c878;
+            --background-dark: #1a1a1a;
+            --text-light: #f0f0f0;
+            --text-dark: #333;
+            --gradient-1: linear-gradient(45deg, #4a90e2, #50c878);
+            --gradient-2: linear-gradient(135deg, #ff6b6b, #ffd93d);
+            --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --container-width: 1200px;
+            --container-padding: 1rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            padding-top: 80px;
+        }
+
+        /* Loading Page Styles */
+        .loading-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--background-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-page.fade-out {
+            opacity: 0;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .loading-logo {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .loading-text {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: var(--gradient-1);
+            transition: width 0.3s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            padding: 1rem var(--container-padding);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: var(--container-width);
+            margin: 0 auto;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .navbar .logo img {
+            height: 60px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active {
+            color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Contact Hero Section */
+        .contact-hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                        url('img-1.jpg') center/cover;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 20%, rgba(74, 144, 226, 0.2), transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(80, 200, 120, 0.2), transparent 50%);
+            pointer-events: none;
+        }
+
+        .contact-hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-hero p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 6rem 2rem;
+            background: rgba(34, 34, 34, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: var(--container-width);
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-1);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 0;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .contact-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-card p {
+            line-height: 1.6;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--gradient-1);
+            color: var(--text-light);
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Map Section */
+        .map-section {
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+            z-index: 1;
+        }
+
+        /* Mobile Menu Icon */
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            z-index: 1001;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            background: transparent;
+            position: relative;
+        }
+
+        .menu-icon i {
+            transition: var(--transition);
+            display: block;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+        }
+
+        .menu-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .menu-icon {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                right: 1rem;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 400px;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                justify-content: center;
+                padding: 2rem;
+                transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+                z-index: 1000;
+                transform: translateX(100%);
+            }
+
+            .nav-links.active {
+                right: 0;
+                transform: translateX(0);
+            }
+
+            .nav-links a {
+                width: 100%;
+                text-align: left;
+                padding: 1rem;
+                font-size: 1.2rem;
+                border-radius: 8px;
+                transition: var(--transition);
+                margin: 0.5rem 0;
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            .nav-links.active a {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .nav-links a:nth-child(1) { transition-delay: 0.1s; }
+            .nav-links a:nth-child(2) { transition-delay: 0.2s; }
+            .nav-links a:nth-child(3) { transition-delay: 0.3s; }
+            .nav-links a:nth-child(4) { transition-delay: 0.4s; }
+
+            .nav-links a:hover {
+                background: rgba(255, 255, 255, 0.1);
+                transform: translateX(10px);
+            }
+
+            .nav-links a.active {
+                background: rgba(255, 255, 255, 0.15);
+                color: var(--primary-color);
+            }
+
+            .contact-section {
+                padding: 4rem 1rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .contact-form {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar .logo img {
+                height: 50px;
+            }
+
+            .contact-hero {
+                min-height: 40vh;
+                padding: 2rem 1rem;
+            }
+
+            .contact-hero h1 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            .contact-hero p {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .contact-card {
+                padding: 1.5rem;
+            }
+
+            .contact-card i {
+                font-size: 2rem;
+            }
+
+            .contact-card h3 {
+                font-size: 1.3rem;
+            }
+
+            .contact-card p {
+                font-size: 0.9rem;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+
+            .form-group input,
+            .form-group textarea {
+                padding: 0.6rem;
+                font-size: 0.9rem;
+            }
+
+            .submit-btn {
+                width: 100%;
+                padding: 0.8rem 1.5rem;
+            }
+
+            .map-section {
+                height: 300px;
+            }
+
+            /* Loading Page Responsive */
+            .loading-logo {
+                width: 120px;
+                height: 120px;
+            }
+
+            .loading-text {
+                font-size: 1.2rem;
+            }
+
+            .loading-bar {
+                width: 160px;
+            }
+
+            .menu-icon {
+                top: 0.8rem;
+                right: 0.8rem;
+                font-size: 1.3rem;
+            }
+
+            .menu-icon i {
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .contact-hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .contact-card {
+                padding: 1.2rem;
+            }
+
+            .contact-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .contact-card p {
+                font-size: 0.85rem;
+            }
+
+            .contact-form {
+                padding: 1.2rem;
+            }
+
+            .form-group input,
+            .form-group textarea {
+                padding: 0.5rem;
+                font-size: 0.85rem;
+            }
+
+            .map-section {
+                height: 250px;
+            }
+
+            .menu-icon {
+                top: 0.6rem;
+                right: 0.6rem;
+                font-size: 1.2rem;
+            }
+
+            .menu-icon i {
+                width: 18px;
+                height: 18px;
+                line-height: 18px;
+            }
+        }
+
+        /* Landscape Mode */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .contact-hero {
+                min-height: 100vh;
+                padding: 6rem 2rem;
+            }
+
+            .nav-links {
+                padding: 1rem;
+            }
+
+            .nav-links a {
+                padding: 0.5rem 1rem;
+                margin: 0.3rem 0;
+            }
+
+            .map-section {
+                height: 300px;
+            }
+        }
+
+        /* High-DPI Screens */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .map-container img {
+                image-rendering: -webkit-optimize-contrast;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .navbar,
+            .menu-icon,
+            .nav-links,
+            .footer {
+                display: none;
+            }
+
+            body {
+                background: white;
+                color: black;
+                padding-top: 0;
+            }
+
+            .contact-hero {
+                background: none;
+                min-height: auto;
+                padding: 2rem;
+            }
+
+            .contact-hero h1 {
+                color: black;
+                -webkit-text-fill-color: black;
+            }
+
+            .contact-card,
+            .contact-form {
+                break-inside: avoid;
+                border: 1px solid #ddd;
+                margin-bottom: 2rem;
+            }
+
+            .map-section {
+                display: none;
+            }
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-1);
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 0.1s linear;
+            z-index: 1002;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10001;
+            mix-blend-mode: difference;
+            transition: transform 0.2s ease;
+        }
+
+        .custom-cursor.active {
+            transform: scale(2);
+            background: var(--secondary-color);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: var(--gradient-1);
+            padding: 4rem 2rem;
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+            margin-top: -50px;
+            text-align: center;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-icons a {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 50%;
+            transition: var(--transition);
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .footer p {
+            color: var(--text-light);
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Page -->
+    <div class="loading-page">
+        <div class="loading-content">
+            <img src="mm.jpg" alt="Logo" class="loading-logo">
+            <div class="loading-text">Loading...</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress"></div>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="mm.jpg" alt="Logo">
+                <img src="088.png" alt="Logo Text">
+            </a>
+            <div class="menu-icon">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="events.html">Events</a>
+                <a href="contact.html" class="active">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="contact-hero">
+        <div class="contact-hero-content">
+            <h1>Contact Us</h1>
+            <p>Get in touch with us for any inquiries or collaborations.</p>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="contact-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Our Location</h3>
+                    <p>123 Main Street, Ichalkaranji, Maharashtra, India</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Phone Number</h3>
+                    <p>+91 1234567890</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email Address</h3>
+                    <p>info@manoranjanmandal.com</p>
+                </div>
+            </div>
+            <div class="contact-form">
+                <h2>Send us a Message</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="map-section">
+        <div class="map-container">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3821.802419443456!2d74.12546931580215!3d16.69169997945667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc1eac85230c7d1%3A0x6b7eccb8e3809271!2sIchalkaranji%2C%20Maharashtra%20416115!5e0!3m2!1sen!2sin!4v1648123456789!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy">
+            </iframe>
+            <div class="map-overlay"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="social-icons">
+                <a href="#" class="animate-float">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="animate-float">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="animate-float">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="animate-float">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+            <p>© 2024 Manoranjan Mandal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Loading Page Functionality
+            const loadingPage = document.querySelector('.loading-page');
+            const loadingProgress = document.querySelector('.loading-progress');
+            const loadingText = document.querySelector('.loading-text');
+            let progress = 0;
+            const minLoadingTime = 2000; // Minimum loading time in milliseconds
+            const startTime = Date.now();
+
+            function updateLoadingProgress() {
+                progress = Math.min(progress + 1, 100);
+                loadingProgress.style.width = `${progress}%`;
+                
+                if (progress < 30) {
+                    loadingText.textContent = 'Loading...';
+                } else if (progress < 60) {
+                    loadingText.textContent = 'Preparing content...';
+                } else if (progress < 90) {
+                    loadingText.textContent = 'Almost ready...';
+                }
+
+                if (progress < 100) {
+                    setTimeout(updateLoadingProgress, 50);
+                } else {
+                    const elapsedTime = Date.now() - startTime;
+                    if (elapsedTime < minLoadingTime) {
+                        setTimeout(() => {
+                            loadingPage.classList.add('fade-out');
+                            setTimeout(() => {
+                                loadingPage.style.display = 'none';
+                            }, 500);
+                        }, minLoadingTime - elapsedTime);
+                    } else {
+                        loadingPage.classList.add('fade-out');
+                        setTimeout(() => {
+                            loadingPage.style.display = 'none';
+                        }, 500);
+                    }
+                }
+            }
+
+            // Start loading progress
+            updateLoadingProgress();
+
+            // Fallback to hide loading page after 10 seconds
+            setTimeout(() => {
+                if (loadingPage.style.display !== 'none') {
+                    loadingPage.classList.add('fade-out');
+                    setTimeout(() => {
+                        loadingPage.style.display = 'none';
+                    }, 500);
+                }
+            }, 10000);
+
+            // Custom cursor
+            const cursor = document.querySelector('.custom-cursor');
+            
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            document.addEventListener('mousedown', () => {
+                cursor.classList.add('active');
+            });
+
+            document.addEventListener('mouseup', () => {
+                cursor.classList.remove('active');
+            });
+
+            // Scroll progress bar
+            window.addEventListener('scroll', () => {
+                const scrollProgress = document.querySelector('.scroll-progress');
+                const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                scrollProgress.style.transform = `scaleX(${scrollPercent / 100})`;
+            });
+
+            // Mobile menu functionality
+            const menuIcon = document.querySelector('.menu-icon');
+            const navLinks = document.querySelector('.nav-links');
+            const menuIconI = menuIcon.querySelector('i');
+            const body = document.body;
+
+            function toggleMenu() {
+                navLinks.classList.toggle('active');
+                menuIconI.classList.toggle('fa-bars');
+                menuIconI.classList.toggle('fa-times');
+                
+                if (navLinks.classList.contains('active')) {
+                    body.style.overflow = 'hidden';
+                    menuIconI.style.transform = 'rotate(180deg)';
+                } else {
+                    body.style.overflow = '';
+                    menuIconI.style.transform = 'rotate(0)';
+                }
+            }
+
+            // Toggle menu on icon click
+            menuIcon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMenu();
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (navLinks.classList.contains('active') && 
+                    !navLinks.contains(e.target) && 
+                    !menuIcon.contains(e.target)) {
+                    toggleMenu();
+                }
+            });
+
+            // Close menu when clicking on a link
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('active')) {
+                        toggleMenu();
+                    }
+                });
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+                    toggleMenu();
+                }
+            });
+
+            // Form submission
+            const contactForm = document.getElementById('contactForm');
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Add your form submission logic here
+                alert('Thank you for your message! We will get back to you soon.');
+                contactForm.reset();
+            });
+
+            // Smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
