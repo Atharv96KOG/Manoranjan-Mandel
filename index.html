@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manoranjan Mandal</title>
+    <!-- Add Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Add Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #50c878;
+            --background-dark: #1a1a1a;
+            --text-light: #f0f0f0;
+            --text-dark: #333;
+            --gradient-1: linear-gradient(45deg, #4a90e2, #50c878);
+            --gradient-2: linear-gradient(135deg, #ff6b6b, #ffd93d);
+            --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --container-width: 1200px;
+            --container-padding: 1rem;
+            --grid-gap: 2rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            padding-top: 80px;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10001;
+            mix-blend-mode: difference;
+            transition: transform 0.2s ease;
+        }
+
+        .custom-cursor.active {
+            transform: scale(2);
+            background: var(--secondary-color);
+        }
+
+        /* Modern Loading Page */
+        .loading-page {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: #000;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .loading-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .loading-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+            animation-delay: 1s;
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .loading-text {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 500;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+            animation-delay: 2s;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .loading-progress {
+            width: 90%;
+            max-width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin: 20px auto;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+            animation-delay: 2.2s;
+        }
+
+        .loading-progress-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--gradient-1);
+            border-radius: 2px;
+            transition: width 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Loading Page Responsive Styles */
+        @media (max-width: 768px) {
+            .loading-content {
+                padding: 1.5rem;
+                width: 85%;
+            }
+
+            .loading-text {
+                font-size: clamp(1.2rem, 4vw, 2rem);
+                margin-top: 15px;
+            }
+            
+            .loading-progress {
+                width: 85%;
+                height: 3px;
+                margin: 15px auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .loading-content {
+                padding: 1rem;
+                width: 90%;
+            }
+
+            .loading-text {
+                font-size: clamp(1rem, 3vw, 1.5rem);
+                margin-top: 10px;
+            }
+            
+            .loading-progress {
+                width: 90%;
+                height: 2px;
+                margin: 10px auto;
+            }
+        }
+
+        /* Landscape Mode */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .loading-content {
+                padding: 0.5rem;
+            }
+
+            .loading-text {
+                font-size: clamp(1rem, 3vw, 1.5rem);
+                margin-top: 5px;
+            }
+            
+            .loading-progress {
+                height: 2px;
+                margin: 5px auto;
+            }
+        }
+
+        /* High DPI Screens */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .loading-video {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        /* Touch Devices */
+        @media (hover: none) {
+            .loading-content {
+                background: rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        /* Dark Mode */
+        @media (prefers-color-scheme: dark) {
+            .loading-content {
+                background: rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        /* Modern Header */
+        .header {
+            background: var(--gradient-1);
+            padding: 2rem;
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            margin-bottom: -50px;
+        }
+
+        /* Modern Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            padding: 1rem var(--container-padding);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 0.8rem var(--container-padding);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .navbar .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .navbar .logo i {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            transition: var(--transition);
+        }
+
+        .navbar .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .navbar .logo:hover i {
+            transform: rotate(360deg);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            position: relative;
+            font-size: 1.1rem;
+            overflow: hidden;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-1);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover::before {
+            opacity: 0.1;
+        }
+
+        .nav-links a.active {
+            color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a.active::before {
+            opacity: 0.2;
+        }
+
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            z-index: 1001;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            background: transparent;
+            position: relative;
+        }
+
+        .menu-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-icon i {
+            transition: var(--transition);
+        }
+
+        /* Modern Slideshow */
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            border-radius: 0;
+        }
+
+        .slides {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slides.active {
+            opacity: 1;
+        }
+
+        .slides img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+            transform: scale(1.1);
+            transition: transform 8s ease-in-out;
+        }
+
+        .slides.active img {
+            transform: scale(1);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 1000px;
+            text-align: center;
+            z-index: 2;
+            opacity: 0;
+            transform: translate(-50%, 30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .slides.active .overlay {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+
+        .overlay h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .overlay p {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            margin-bottom: 2rem;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .slideshow-nav {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 3;
+        }
+
+        .slideshow-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slideshow-dot.active {
+            background: var(--primary-color);
+            transform: scale(1.2);
+        }
+
+        .slideshow-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 3;
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 1.5rem;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .slideshow-arrow:hover {
+            background: var(--primary-color);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slideshow-arrow.prev {
+            left: 2rem;
+        }
+
+        .slideshow-arrow.next {
+            right: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .slideshow-container {
+                height: 80vh;
+            }
+
+            .overlay h2 {
+                font-size: clamp(2rem, 4vw, 3rem);
+            }
+
+            .overlay p {
+                font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+            }
+
+            .slideshow-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .slideshow-arrow.prev {
+                left: 1rem;
+            }
+
+            .slideshow-arrow.next {
+                right: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slideshow-container {
+                height: 70vh;
+            }
+
+            .overlay h2 {
+                font-size: clamp(1.5rem, 3vw, 2rem);
+            }
+
+            .overlay p {
+                font-size: 1rem;
+            }
+
+            .slideshow-nav {
+                bottom: 1rem;
+            }
+
+            .slideshow-dot {
+                width: 8px;
+                height: 8px;
+            }
+        }
+
+        /* Modern Event Cards */
+        .events {
+            padding: 4rem 2rem;
+            background: rgba(34, 34, 34, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+
+        .event-cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--grid-gap);
+            padding: 2rem 0;
+        }
+
+        .event-card {
+            background: rgba(68, 68, 68, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 100%;
+            height: auto;
+            min-height: 300px;
+            margin: 0;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .event-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .event-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .event-card .rocket {
+            width: 40px;
+            height: 40px;
+            transition: var(--transition);
+        }
+
+        .event-card:hover .rocket {
+            transform: translateY(-10px) rotate(45deg);
+        }
+
+        /* Modern FAQ Section */
+        .faq {
+            padding: 6rem 2rem;
+            background: rgba(51, 51, 51, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .faq::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 20%, rgba(74, 144, 226, 0.1), transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(80, 200, 120, 0.1), transparent 50%);
+            pointer-events: none;
+        }
+
+        .faq h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+
+        .faq h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--gradient-1);
+            border-radius: 3px;
+        }
+
+        .faq-container {
+            display: grid;
+            text-align: center;
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .faq-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .faq-item:hover::before {
+            transform: translateX(100%);
+        }
+
+        .faq-item h3 {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-item h3 i {
+            margin-right: 1rem;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+
+        .faq-item h3::after {
+            content: '\f107';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .faq-item.active h3 {
+            background: rgba(74, 144, 226, 0.1);
+            color: var(--primary-color);
+        }
+
+        .faq-item.active h3 i {
+            transform: rotate(360deg);
+        }
+
+        .faq-item.active h3::after {
+            transform: rotate(180deg);
+        }
+
+        .faq-item p {
+            padding: 0;
+            background: rgba(255, 255, 255, 0.03);
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+            opacity: 0;
+            transform: translateY(-20px);
+            line-height: 1.6;
+        }
+
+        .faq-item.active p {
+            padding: 1.5rem;
+            max-height: 500px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Modern Footer */
+        .footer {
+            background: var(--gradient-1);
+            padding: 4rem 2rem;
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+            margin-top: -50px;
+            text-align: center;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-icons a {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .social-icons img {
+            width: 30px;
+            height: 30px;
+            filter: brightness(0) invert(1);
+        }
+
+        /* Glass Morphism Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            margin: 2rem;
+            transition: var(--transition);
+        }
+
+        .glass-card:hover {
+            transform: scale(1.02);
+            border-color: var(--primary-color);
+        }
+
+        /* Container Class */
+        .container {
+            width: 100%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+        }
+
+        /* Enhanced Responsive Design */
+        @media (max-width: 1200px) {
+            :root {
+                --container-padding: 2rem;
+            }
+            
+            .header {
+                font-size: 2rem;
+            }
+            
+            .overlay h2 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .slideshow-container {
+                height: 70vh;
+                margin: 1rem;
+            }
+            
+            .overlay h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-icon {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 400px;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                justify-content: center;
+                padding: 2rem;
+                transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+                z-index: 1000;
+                transform: translateX(100%);
+            }
+
+            .nav-links.active {
+                right: 0;
+                transform: translateX(0);
+            }
+
+            .nav-links a {
+                width: 100%;
+                text-align: left;
+                padding: 1rem;
+                font-size: 1.2rem;
+                border-radius: 8px;
+                transition: var(--transition);
+                margin: 0.5rem 0;
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            .nav-links.active a {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .nav-links a:nth-child(1) { transition-delay: 0.1s; }
+            .nav-links a:nth-child(2) { transition-delay: 0.2s; }
+            .nav-links a:nth-child(3) { transition-delay: 0.3s; }
+            .nav-links a:nth-child(4) { transition-delay: 0.4s; }
+
+            .nav-links a:hover {
+                background: rgba(255, 255, 255, 0.1);
+                transform: translateX(10px);
+            }
+
+            .nav-links a::before {
+                display: none;
+            }
+
+            .nav-links a.active {
+                background: rgba(255, 255, 255, 0.15);
+                color: var(--primary-color);
+            }
+
+            .slideshow-container {
+                height: 60vh;
+                margin: 0.5rem;
+            }
+
+            .overlay {
+                padding: 1rem;
+            }
+
+            .overlay h2 {
+                font-size: 2rem;
+            }
+
+            .overlay p {
+                font-size: 1rem;
+            }
+
+            .event-cards-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+
+            .event-card {
+                min-height: 250px;
+            }
+
+            .faq-item h3 {
+                font-size: 1.1rem;
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --container-padding: 1rem;
+            }
+
+            .navbar {
+                padding: 0.8rem 1rem;
+            }
+
+            .navbar .logo {
+                font-size: 1.5rem;
+            }
+
+            .navbar .logo i {
+                font-size: 1.4rem;
+            }
+
+            .nav-links {
+                width: 100%;
+                max-width: none;
+            }
+
+            .slideshow-container {
+                height: 50vh;
+                margin: 0;
+                border-radius: 0;
+            }
+
+            .overlay h2 {
+                font-size: 1.5rem;
+            }
+
+            .overlay p {
+                font-size: 0.9rem;
+            }
+
+            .social-icons {
+                gap: 1rem;
+            }
+
+            .social-icons a {
+                padding: 0.75rem;
+            }
+        }
+
+        /* Fix for iOS Safari */
+        @supports (-webkit-touch-callout: none) {
+            .slideshow-container {
+                height: -webkit-fill-available;
+            }
+        }
+
+        /* Modern Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            text-align: center;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-1);
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 0.1s linear;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--gradient-1);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Event Card Improvements */
+        .event-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem;
+        }
+
+        .event-card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .event-card p {
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+
+        /* FAQ Improvements */
+        .faq-item {
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .faq-item:hover {
+            transform: translateX(10px);
+        }
+
+        .faq-item p {
+            line-height: 1.6;
+        }
+
+        /* Navigation Improvements */
+        .nav-links a {
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-1);
+            border-radius: 8px;
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .nav-links a:hover::before {
+            opacity: 0.1;
+        }
+
+        /* Slideshow Improvements */
+        .slideshow-container {
+            position: relative;
+        }
+
+        .slides {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .slides.active {
+            opacity: 1;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        /* Update media queries */
+        @media (max-width: 992px) {
+            .nav-links {
+                gap: 1.5rem;
+            }
+            
+            .nav-links a {
+                font-size: 1rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --container-padding: 1rem;
+            }
+
+            .navbar {
+                padding: 0.8rem 1rem;
+            }
+
+            .navbar .logo {
+                font-size: 1.5rem;
+            }
+
+            .navbar .logo i {
+                font-size: 1.4rem;
+            }
+
+            .nav-links {
+                width: 100%;
+                max-width: none;
+            }
+        }
+
+        /* Add touch device optimizations */
+        @media (hover: none) {
+            .btn:hover {
+                transform: none;
+            }
+
+            .nav-links a:hover::before {
+                opacity: 0;
+            }
+
+            .event-card:hover {
+                transform: none;
+            }
+
+            .faq-item:hover {
+                transform: none;
+            }
+        }
+
+        /* Add dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-dark: #121212;
+                --text-light: #f0f0f0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Page -->
+    <div class="custom-cursor"></div>
+    <div class="loading-page">
+        <video class="loading-video" autoplay loop playsinline muted>
+            <source src="MM  LOGO  INTRO.mp4" type="video/mp4">
+        </video>
+        <div class="loading-content">
+            <div class="loading-text">Loading...</div>
+            <div class="loading-progress">
+                <div class="loading-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress"></div>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="mm.jpg" alt="" width="60px" height="80px">
+                <span>Manoranjan Mandal</span>
+            </a>
+            <div class="menu-icon">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="active">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#events">Events</a>
+                <a href="#contact">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home" class="slideshow-container">
+            <div class="slides active">
+                <img src="img-1.jpg" alt="Welcome to Manoranjan Mandal">
+                <div class="overlay">
+                    <h2>Welcome to Manoranjan Mandal</h2>
+                    <p>Discover the future of digital innovation</p>
+                </div>
+            </div>
+            <div class="slides">
+                <img src="img-2.jpg" alt="Explore Our Services">
+                <div class="overlay">
+                    <h2>Explore Our Services</h2>
+                    <p>We provide cutting-edge digital solutions</p>
+                </div>
+            </div>
+            <div class="slides">
+                <img src="img-3.jpg" alt="Contact Us Today">
+                <div class="overlay">
+                    <h2>Contact Us Today</h2>
+                    <p>Let's create something amazing together</p>
+                </div>
+            </div>
+            <div class="slideshow-nav">
+                <div class="slideshow-dot active"></div>
+                <div class="slideshow-dot"></div>
+                <div class="slideshow-dot"></div>
+            </div>
+            <div class="slideshow-arrow prev">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="slideshow-arrow next">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </section>
+
+        <section id="events" class="events">
+            <div class="container">
+                <h2 class="animate-fade-in">Upcoming Events</h2>
+                <div class="event-cards-container">
+                    <div class="event-card glass-card animate-fade-in">
+                        <i class="fas fa-rocket rocket"></i>
+                        <h3>Tech Summit 2024</h3>
+                        <p>Join us for the biggest tech event of the year.</p>
+                        <a href="#" class="btn">Learn More</a>
+                    </div>
+                    <div class="event-card glass-card animate-fade-in">
+                        <i class="fas fa-globe"></i>
+                        <h3>International Conference</h3>
+                        <p>A platform for global tech enthusiasts.</p>
+                        <a href="#" class="btn">Register Now</a>
+                    </div>
+                    <div class="event-card glass-card animate-fade-in">
+                        <i class="fas fa-hands-helping"></i>
+                        <h3>Community Meetup</h3>
+                        <p>Connect with like-minded individuals.</p>
+                        <a href="#" class="btn">Join Us</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="faq">
+            <div class="container">
+                <h2 class="animate-fade-in">Frequently Asked Questions</h2>
+                <div class="faq-container">
+                    <div class="faq-item glass-card">
+                        <h3>
+                            <i class="fas fa-question-circle"></i>
+                            What services do you offer?
+                        </h3>
+                        <p>We offer cutting-edge digital solutions including web development, AI integration, and cloud services. Our team specializes in creating modern, responsive websites and applications that help businesses thrive in the digital age.</p>
+                    </div>
+                    <div class="faq-item glass-card">
+                        <h3>
+                            <i class="fas fa-envelope"></i>
+                            How can I contact you?
+                        </h3>
+                        <p>You can contact us through our website's contact form or by emailing us at contact@manoranjanmandal.com. We typically respond within 24 hours during business days.</p>
+                    </div>
+                    <div class="faq-item glass-card">
+                        <h3>
+                            <i class="fas fa-clock"></i>
+                            What are your business hours?
+                        </h3>
+                        <p>Our business hours are Monday to Friday, 9 AM to 5 PM. We also offer emergency support services outside these hours for our premium clients.</p>
+                    </div>
+                    <div class="faq-item glass-card">
+                        <h3>
+                            <i class="fas fa-handshake"></i>
+                            What is your pricing structure?
+                        </h3>
+                        <p>Our pricing is project-based and depends on the scope and complexity of your requirements. We offer flexible payment plans and competitive rates for all our services.</p>
+                    </div>
+                    <div class="faq-item glass-card">
+                        <h3>
+                            <i class="fas fa-shield-alt"></i>
+                            How do you ensure data security?
+                        </h3>
+                        <p>We implement industry-standard security measures including SSL encryption, regular security audits, and secure data storage practices to protect your information.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="social-icons">
+                <a href="#" class="animate-float">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="animate-float">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="animate-float">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="animate-float">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+            <p>© 2024 Manoranjan Mandal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Custom cursor
+            const cursor = document.querySelector('.custom-cursor');
+            
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            document.addEventListener('mousedown', () => {
+                cursor.classList.add('active');
+            });
+
+            document.addEventListener('mouseup', () => {
+                cursor.classList.remove('active');
+            });
+
+            // Loading page functionality
+            const loadingPage = document.querySelector('.loading-page');
+            const progressBar = document.querySelector('.loading-progress-bar');
+            const loadingText = document.querySelector('.loading-text');
+            const video = document.querySelector('.loading-video');
+            let progress = 0;
+            let videoPlayed = false;
+            let startTime = null;
+
+            // Ensure video is loaded and playing
+            video.addEventListener('loadeddata', () => {
+                video.play();
+                videoPlayed = true;
+                startTime = Date.now();
+            });
+
+            // Handle video end
+            video.addEventListener('ended', () => {
+                if (progress < 100) {
+                    // If video ends before loading is complete, restart it
+                    video.currentTime = 0;
+                    video.play();
+                }
+            });
+
+            // Simulate loading progress
+            const interval = setInterval(() => {
+                progress += Math.random() * 5; // Even slower progress
+                if (progress > 100) {
+                    progress = 100;
+                }
+                progressBar.style.width = `${progress}%`;
+            }, 500); // Slower interval
+
+            // Update loading text based on progress
+            const updateLoadingText = () => {
+                if (progress < 30) {
+                    loadingText.textContent = 'Loading...';
+                } else if (progress < 60) {
+                    loadingText.textContent = 'Almost there...';
+                } else if (progress < 90) {
+                    loadingText.textContent = 'Just a moment...';
+                }
+            };
+
+            // Update text every 500ms
+            setInterval(updateLoadingText, 500);
+
+            // Check if minimum time has passed and loading is complete
+            const checkLoadingComplete = () => {
+                if (videoPlayed && startTime) {
+                    const elapsedTime = (Date.now() - startTime) / 1000; // Convert to seconds
+                    if (elapsedTime >= 5 && progress >= 100) { // Wait for 7 seconds and 100% progress
+                        clearInterval(interval);
+                        setTimeout(() => {
+                            loadingPage.style.opacity = '0';
+                            setTimeout(() => {
+                                loadingPage.style.display = 'none';
+                            }, 500);
+                        }, 500);
+                    }
+                }
+            };
+
+            // Check loading status every 100ms
+            setInterval(checkLoadingComplete, 100);
+
+            // Scroll progress bar
+            window.addEventListener('scroll', () => {
+                const scrollProgress = document.querySelector('.scroll-progress');
+                const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                scrollProgress.style.transform = `scaleX(${scrollPercent / 100})`;
+            });
+
+            // Intersection Observer for fade-in animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animate-fade-in').forEach(el => observer.observe(el));
+
+            // Enhanced FAQ accordion
+            document.querySelectorAll('.faq-item h3').forEach(header => {
+                header.addEventListener('click', () => {
+                    const item = header.parentElement;
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close all items
+                    document.querySelectorAll('.faq-item').forEach(faqItem => {
+                        faqItem.classList.remove('active');
+                    });
+                    
+                    // Toggle current item
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+
+            // Add hover effect for FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    item.style.transform = 'translateX(10px)';
+                });
+                
+                item.addEventListener('mouseleave', () => {
+                    item.style.transform = 'translateX(0)';
+                });
+            });
+
+            // Smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Enhanced Slideshow functionality
+            let slideIndex = 0;
+            const slides = document.querySelectorAll('.slides');
+            const dots = document.querySelectorAll('.slideshow-dot');
+            const prevBtn = document.querySelector('.slideshow-arrow.prev');
+            const nextBtn = document.querySelector('.slideshow-arrow.next');
+            
+            function showSlides(index) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                slideIndex = (index + slides.length) % slides.length;
+                
+                slides[slideIndex].classList.add('active');
+                dots[slideIndex].classList.add('active');
+            }
+            
+            function nextSlide() {
+                showSlides(slideIndex + 1);
+            }
+            
+            function prevSlide() {
+                showSlides(slideIndex - 1);
+            }
+            
+            // Auto advance slides
+            let slideInterval = setInterval(nextSlide, 5000);
+            
+            // Reset interval on user interaction
+            function resetInterval() {
+                clearInterval(slideInterval);
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+            
+            // Event listeners
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                resetInterval();
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                resetInterval();
+            });
+            
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    showSlides(index);
+                    resetInterval();
+                });
+            });
+            
+            // Pause on hover
+            const slideshowContainer = document.querySelector('.slideshow-container');
+            slideshowContainer.addEventListener('mouseenter', () => {
+                clearInterval(slideInterval);
+            });
+            
+            slideshowContainer.addEventListener('mouseleave', () => {
+                slideInterval = setInterval(nextSlide, 5000);
+            });
+
+            // Add navbar scroll effect
+            let lastScroll = 0;
+            window.addEventListener('scroll', () => {
+                const navbar = document.querySelector('.navbar');
+                const currentScroll = window.pageYOffset;
+
+                if (currentScroll <= 0) {
+                    navbar.classList.remove('scrolled');
+                } else {
+                    navbar.classList.add('scrolled');
+                }
+
+                lastScroll = currentScroll;
+            });
+
+            // Mobile menu functionality
+            const menuIcon = document.querySelector('.menu-icon');
+            const navLinks = document.querySelector('.nav-links');
+            const menuIconI = menuIcon.querySelector('i');
+            const body = document.body;
+
+            function toggleMenu() {
+                navLinks.classList.toggle('active');
+                menuIconI.classList.toggle('fa-bars');
+                menuIconI.classList.toggle('fa-times');
+                
+                if (navLinks.classList.contains('active')) {
+                    body.style.overflow = 'hidden';
+                    menuIconI.style.transform = 'rotate(180deg)';
+                } else {
+                    body.style.overflow = '';
+                    menuIconI.style.transform = 'rotate(0)';
+                }
+            }
+
+            // Toggle menu on icon click
+            menuIcon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMenu();
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (navLinks.classList.contains('active') && 
+                    !navLinks.contains(e.target) && 
+                    !menuIcon.contains(e.target)) {
+                    toggleMenu();
+                }
+            });
+
+            // Close menu when clicking on a link
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('active')) {
+                        toggleMenu();
+                    }
+                });
+            });
+
+            // Prevent menu from closing when clicking inside
+            navLinks.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+                    toggleMenu();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
